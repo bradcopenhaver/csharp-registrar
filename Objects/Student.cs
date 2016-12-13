@@ -164,12 +164,60 @@ namespace Registrar.Objects
       return foundStudent;
     }
 
+    public void AddCourse(int courseId)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO courses_students (course_id, student_id) VALUES (@CourseId, @StudentId);", conn);
+      cmd.Parameters.AddWithValue("@CourseId", courseId);
+      cmd.Parameters.AddWithValue("@StudentId", _id);
+      cmd.ExecuteNonQuery();
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public List<Course> GetAllCourses()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT courses.* FROM students JOIN courses_students ON (students.id = courses_students.student_id) JOIN courses ON (courses_students.course_id = courses.id) WHERE students.id = @StudentId;", conn);
+      cmd.Parameters.AddWithValue("@StudentId", _id);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundId = 0;
+      string name = "";
+      string number = "";
+      List<Course> studentCourses = new List<Course> {};
+
+      while(rdr.Read())
+      {
+        foundId = rdr.GetInt32(0);
+        name = rdr.GetString(1);
+        number = rdr.GetString(2);
+        Course foundCourse = new Course(name, number, foundId);
+        studentCourses.Add(foundCourse);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return studentCourses;
+    }
+
     public void Delete()
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("DELETE FROM students WHERE id = @StudentId;", conn);
+      SqlCommand cmd = new SqlCommand("DELETE FROM students WHERE id = @StudentId; DELETE FROM courses_students WHERE student_id = @StudentId", conn);
       cmd.Parameters.AddWithValue("@StudentId", _id);
       cmd.ExecuteNonQuery();
       if (conn != null)

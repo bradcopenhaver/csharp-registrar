@@ -88,5 +88,22 @@ namespace Registrar.Objects
 
       Assert.Equal(expectedResult, result);
     }
+
+    [Fact]
+    public void AddCourse_AddCoursesForStudents_true()
+    {
+      Student newStudent = new Student("Joe",DateTime.Today);
+      Course course1 = new Course("Math Party", "MTH505");
+      Course course2 = new Course("Intro", "CS101");
+      newStudent.Save();
+      course1.Save();
+      course2.Save();
+      List<Course> expectedList = new List<Course> {course1};
+
+      newStudent.AddCourse(course1.GetId());
+      List<Course> result = newStudent.GetAllCourses();
+
+      Assert.Equal(result, expectedList);
+    }
   }
 }
