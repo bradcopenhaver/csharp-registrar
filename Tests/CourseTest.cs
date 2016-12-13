@@ -35,6 +35,7 @@ namespace Registrar.Objects
 
       Assert.Equal(course1, course2);
     }
+
     [Fact]
     public void Save_SavesToDatabase_true()
     {
@@ -45,6 +46,47 @@ namespace Registrar.Objects
       List<Course> result = Course.GetAll();
 
       Assert.Equal(result, testList);
+    }
+
+    [Fact]
+    public void Find_RetrievesCourseFromDB_()
+    {
+      Course newCourse = new Course("Math", "MTH101");
+      newCourse.Save();
+
+      Course result = Course.Find(newCourse.GetId());
+
+      Assert.Equal(newCourse, result);
+    }
+
+    [Fact]
+    public void UpdateName_UpdateNameInDB_true()
+    {
+      string name = "Intro to Programming";
+      Course testCourse = new Course(name, "PROG101");
+      testCourse.Save();
+
+      string newName = "Intro to Computers";
+
+      testCourse.UpdateName(newName);
+      string result = testCourse.GetName();
+
+      Assert.Equal(newName, result);
+    }
+
+    [Fact]
+    public void Delete_DeletesCourseFromDB_true()
+    {
+      Course course1 = new Course("Math Party", "MTH505");
+      course1.Save();
+      Course course2 = new Course("CS Party", "CS502");
+      course2.Save();
+      List<Course> expectedResult = new List<Course>{course2};
+
+      course1.Delete();
+      List<Course> result = Course.GetAll();
+
+      Assert.Equal(expectedResult, result);
     }
   }
 }

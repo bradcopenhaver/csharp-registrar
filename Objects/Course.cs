@@ -108,5 +108,75 @@ namespace Registrar.Objects
         conn.Close();
       }
     }
+
+    public void UpdateName(string newName)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand ("UPDATE courses SET name = @NewName OUTPUT INSERTED.name WHERE id = @CourseId;", conn);
+
+      cmd.Parameters.AddWithValue("@NewName", newName);
+      cmd.Parameters.AddWithValue("@CourseId", _id);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._name = rdr.GetString(0);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public static Course Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM courses WHERE id = @CourseId;", conn);
+      cmd.Parameters.AddWithValue("@CourseId", id);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundId = 0;
+      string name = "";
+      string number = "";
+
+      while(rdr.Read())
+      {
+        foundId = rdr.GetInt32(0);
+        name = rdr.GetString(1);
+        number = rdr.GetString(2);
+      }
+      Course foundCourse = new Course(name, number, foundId);
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundCourse;
+    }
+
+    public void Delete()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("DELETE FROM courses WHERE id = @CourseId;", conn);
+      cmd.Parameters.AddWithValue("@CourseId", _id);
+      cmd.ExecuteNonQuery();
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
   }
 }

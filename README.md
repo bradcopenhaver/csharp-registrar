@@ -18,6 +18,9 @@ This program will...
 6. Delete any course record.
   * Input: Delete Databasics
   * Output: {Databasics, CS304} -> {}
-7. Assign students to multiple courses and courses to multiple students.
-  * Input: Frank is taking CS101 and CS304, Betty is taking CS304
-  * Output: CS101: Frank, CS304: Frank and Betty
+7. Assign a student to multiple courses.
+  * Input: Frank is taking CS101 and CS304
+  * Output: CS101: Frank, CS304: Frank
+8. Assign multiple students to a single course.
+  * Input: Frank, Mary, and Betty are taking CS101
+  * Output: CS101: Frank, Mary, Betty
