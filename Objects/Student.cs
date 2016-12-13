@@ -18,7 +18,7 @@ namespace Registrar.Objects
       _enrollment = enrollment;
     }
 
-    public void DeleteAll();
+    public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
