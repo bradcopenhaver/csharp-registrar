@@ -1,0 +1,15 @@
+@{
+  Layout="Shared/_Layout.cshtml";
+}
+<div class="row">
+  <div class="col-md-12">
+    <h3>All Courses</h3>
+    <ul>
+      @foreach(var course in Model)
+      {
+        <li><a href="/course/@course.GetId()">@course.GetName()</a></li>
+      }
+    </ul>
+    <h5><a href="/">Homepage</a></h5>
+  </div>
+</div>

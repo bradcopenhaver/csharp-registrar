@@ -1,0 +1,15 @@
+@{
+  Layout="Shared/_Layout.cshtml";
+}
+<div class="row">
+  <div class="col-md-12">
+    <h3>Add a new course</h3>
+    <form action="/course/new" method="post">
+      <label for="courseName">Course name:</label>
+      <input name="courseName" type="text" required>
+      <label for="courseNumber">Course number:</label>
+      <input name="courseNumber" type="text" required>
+      <button type="submit">Create course</button>
+    </form>
+  </div>
+</div>

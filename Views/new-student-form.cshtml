@@ -1,0 +1,15 @@
+@{
+  Layout="Shared/_Layout.cshtml";
+}
+<div class="row">
+  <div class="col-md-12">
+    <h3>Add a new student</h3>
+    <form action="/student/new" method="post">
+      <label for="studentName">Student name:</label>
+      <input name="studentName" type="text" required>
+      <label for='enrollmentDate'>Enrollment Date</label>
+      <input id='enrollmentDate' name='enrollmentDate' type='date'>
+      <button type="submit">Create student</button>
+    </form>
+  </div>
+</div>
