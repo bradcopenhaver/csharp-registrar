@@ -178,5 +178,53 @@ namespace Registrar.Objects
         conn.Close();
       }
     }
+
+    public void AddStudent(int studentId)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO courses_students (course_id, student_id) VALUES (@CourseId, @StudentId);", conn);
+      cmd.Parameters.AddWithValue("@CourseId", _id);
+      cmd.Parameters.AddWithValue("@StudentId", studentId);
+      cmd.ExecuteNonQuery();
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public List<Student> GetAllStudents()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT students.* FROM courses JOIN courses_students ON (courses.id = courses_students.course_id) JOIN students ON (courses_students.student_id = students.id) WHERE courses.id = @CourseId;", conn);
+      cmd.Parameters.AddWithValue("@CourseId", _id);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundId = 0;
+      string name = "";
+      DateTime enrollment = DateTime.Today;
+      List<Student> courseStudents = new List<Student> {};
+
+      while(rdr.Read())
+      {
+        foundId = rdr.GetInt32(0);
+        name = rdr.GetString(1);
+        enrollment = rdr.GetDateTime(2);
+        Student foundStudent = new Student(name, enrollment, foundId);
+        courseStudents.Add(foundStudent);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return courseStudents;
+    }
   }
 }

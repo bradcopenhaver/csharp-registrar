@@ -88,5 +88,25 @@ namespace Registrar.Objects
 
       Assert.Equal(expectedResult, result);
     }
+
+    [Fact]
+    public void AddStudent_AddsStudentToCourse_true()
+    {
+      Course newCourse = new Course("Intro", "CS101");
+      Student student1 = new Student("James", DateTime.Today);
+      Student student2 = new Student("Sarah", DateTime.Today);
+      Student student3 = new Student("Grace", DateTime.Today);
+      newCourse.Save();
+      student1.Save();
+      student2.Save();
+      student3.Save();
+      List<Student> expectedList = new List<Student> {student1, student3};
+
+      newCourse.AddStudent(student1.GetId());
+      newCourse.AddStudent(student3.GetId());
+      List<Student> result = newCourse.GetAllStudents();
+
+      Assert.Equal(expectedList, result);
+    }
   }
 }

@@ -24,3 +24,11 @@ This program will...
 8. Assign multiple students to a single course.
   * Input: Frank, Mary, and Betty are taking CS101
   * Output: CS101: Frank, Mary, Betty
+
+Course:
+AddStudent
+GetAllStudents
+
+Student:
+AddCourse
+GetAllCourses
