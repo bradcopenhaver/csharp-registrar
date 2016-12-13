@@ -1,0 +1,42 @@
+@{
+  Layout="Shared/_Layout.cshtml";
+}
+<div class="row">
+  <div class="col-md-12">
+    <h3>@Model["student"].GetName()</h3>
+    <h4>Student enrollment date: @Model["student"].GetEnrollment()</h4>
+    <h4>@Model["student"].GetName()'s courses:</h4>
+    <ul>
+      @foreach(var course in Model["studentCourses"])
+      {
+        <li><a href="/course/@course.GetId()">@course.GetName()</a></li>
+      }
+    </ul>
+    <hr>
+    <form action="/student/add_course" method="post">
+      <input type="hidden" name="studentId" value='@Model["student"].GetId()'>
+      <select name="courseId">
+        @foreach(var course in Model["allCourses"])
+        {
+          <option value="@course.GetId()">@course.GetName()</option>
+        }
+      </select>
+      <button class="btn btn-info" type="submit">Add course</button>
+    </form>
+    <hr>
+    <form action='/student/update/@Model["student"].GetId()' method="post">
+      <input type="hidden" name="_method" value="PATCH">
+      <label for="newName">Update this student's name</label>
+      <input type="text" name="newName">
+      <button type="submit" class="btn btn-info">Update</button>
+    </form>
+    <hr>
+    <form action='/student/delete/@Model["student"].GetId()' method="post">
+      <input type="hidden" name="_method" value="DELETE">
+      <button type="submit" class="btn btn-danger">Delete this student</button>
+    </form>
+    <hr>
+    <h5><a href="/students">All students</a></h5>
+    <h5><a href="/">Homepage</a></h5>
+  </div>
+</div>

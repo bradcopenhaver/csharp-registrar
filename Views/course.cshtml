@@ -24,6 +24,18 @@
       <button class="btn btn-info" type="submit">Add student</button>
     </form>
     <hr>
+    <form action='/course/update/@Model["course"].GetId()' method="post">
+      <input type="hidden" name="_method" value="PATCH">
+      <label for="newName">Update this course's name</label>
+      <input type="text" name="newName">
+      <button type="submit" class="btn btn-info">Update</button>
+    </form>
+    <hr>
+    <form action='/course/delete/@Model["course"].GetId()' method="post">
+      <input type="hidden" name="_method" value="DELETE">
+      <button type="submit" class="btn btn-danger">Delete this course</button>
+    </form>
+    <hr>
     <h5><a href="/courses">All courses</a></h5>
     <h5><a href="/">Homepage</a></h5>
   </div>
