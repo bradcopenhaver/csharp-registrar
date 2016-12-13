@@ -35,6 +35,28 @@ namespace Registrar
         List<Student> allStudents = Student.GetAll();
         return View["students.cshtml", allStudents];
       };
+      Get["/course/{id}"] = parameters => {
+        Course currentCourse = Course.Find(parameters.id);
+        Dictionary<string, object> model = new Dictionary<string, object>();
+        List<Student> allStudents = Student.GetAll();
+        List<Student> courseStudents = currentCourse.GetAllStudents();
+        model.Add("course", currentCourse);
+        model.Add("allStudents", allStudents);
+        model.Add("courseStudents", courseStudents);
+        return View["course.cshtml", model];
+      };
+      Post["/course/add_student"] = _ => {
+        Course currentCourse = Course.Find(Request.Form["courseId"]);
+        currentCourse.AddStudent(Request.Form["studentId"]);
+
+        Dictionary<string, object> model = new Dictionary<string, object>();
+        List<Student> allStudents = Student.GetAll();
+        List<Student> courseStudents = currentCourse.GetAllStudents();
+        model.Add("course", currentCourse);
+        model.Add("allStudents", allStudents);
+        model.Add("courseStudents", courseStudents);
+        return View["course.cshtml", model];
+      };
     }
   }
 }

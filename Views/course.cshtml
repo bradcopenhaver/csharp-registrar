@@ -1,0 +1,30 @@
+@{
+  Layout="Shared/_Layout.cshtml";
+}
+<div class="row">
+  <div class="col-md-12">
+    <h3>@Model["course"].GetName()</h3>
+    <h4>Course number: @Model["course"].GetNumber()</h4>
+    <h4>Students enrolled in this course:</h4>
+    <ul>
+      @foreach(var student in Model["courseStudents"])
+      {
+        <li><a href="/student/@student.GetId()">@student.GetName()</a></li>
+      }
+    </ul>
+    <hr>
+    <form action="/course/add_student" method="post">
+      <input type="hidden" name="courseId" value='@Model["course"].GetId()'>
+      <select name="studentId">
+        @foreach(var student in Model["allStudents"])
+        {
+          <option value="@student.GetId()">@student.GetName()</option>
+        }
+      </select>
+      <button class="btn btn-info" type="submit">Add student</button>
+    </form>
+    <hr>
+    <h5><a href="/courses">All courses</a></h5>
+    <h5><a href="/">Homepage</a></h5>
+  </div>
+</div>
